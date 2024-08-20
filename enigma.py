@@ -9,6 +9,7 @@ class Enigma:
         self.reflector_map = reflector_map
 
     def encrypt(self, message):
+        pass
         #Todo: add code
 
 #Function outside the class, gets source to json file, and returns fitting enigma,
@@ -26,4 +27,4 @@ def load_enigma_from_path(path):
         raise JSONFileError
     if 'rotators' not in dictionary or 'wheels' not in dictionary or 'reflectors' not in dictionary:
         raise JSONFileError
-    return Enigma(dictionary['rotators'], dictionary['wheels'], dictionary['reflector'])
+    return Enigma(dictionary['hash_map'], dictionary['wheels'], dictionary['reflector_map'])
