@@ -27,7 +27,7 @@ def load_enigma_from_path(path):
             dictionary = json.load(f)
     except Exception:
         raise JSONFileError
-    if 'rotators' not in dictionary or 'wheels' not in dictionary or 'reflectors' not in dictionary:
+    if 'hash_map' not in dictionary or 'wheels' not in dictionary or 'reflector_map' not in dictionary:
         raise JSONFileError
     return Enigma(dictionary['hash_map'], dictionary['wheels'], dictionary['reflector_map'])
 
@@ -47,13 +47,13 @@ if __name__ == '__main__':
             for line in f_in:
                 lines_to_encrypt.append(line)
         #printing to -o or to the common printing
-        if args_dict.__contains__('-o'):
+        if '-o' in args_dict:
             with open(args_dict['-o'], 'w') as f_out:
                 for line in lines_to_encrypt:
-                    f_out.write(enigma.encrypt(line) + '\n')
+                    f_out.write(enigma.encrypt(line))
         else:
             for line in lines_to_encrypt:
-                print(enigma.encrypt(line) + '\n')
+                print(enigma.encrypt(line))
     except Exception:
         sys.stderr.write("The enigma script has encountered an error")
         exit(1)
