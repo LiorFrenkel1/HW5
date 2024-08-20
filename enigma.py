@@ -1,4 +1,5 @@
 import json
+import sys
 
 class Enigma:
 
@@ -9,7 +10,8 @@ class Enigma:
         self.reflector_map = reflector_map
 
     def encrypt(self, message):
-        pass
+        final_message = ''
+        return final_message
         #Todo: add code
 
 #Function outside the class, gets source to json file, and returns fitting enigma,
@@ -28,3 +30,30 @@ def load_enigma_from_path(path):
     if 'rotators' not in dictionary or 'wheels' not in dictionary or 'reflectors' not in dictionary:
         raise JSONFileError
     return Enigma(dictionary['hash_map'], dictionary['wheels'], dictionary['reflector_map'])
+
+if __name__ == '__main__':
+    #Getting the flags from the shell
+    args_dict = {}
+    for i in range(1, len(sys.argv), 2):
+        if sys.argv[i] != '-c' and sys.argv[i] != '-i' and sys.argv[i] != '-o':
+            sys.stderr.write("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>")
+            exit(1)
+        args_dict[sys.argv[i]] = sys.argv[i + 1]
+    try:
+        #loading the message to encrypt
+        enigma = load_enigma_from_path(args_dict['-c'])
+        lines_to_encrypt = []
+        with open(args_dict['-i'], 'r') as f_in:
+            for line in f_in:
+                lines_to_encrypt.append(line)
+        #printing to -o or to the common printing
+        if args_dict.__contains__('-o'):
+            with open(args_dict['-o'], 'w') as f_out:
+                for line in lines_to_encrypt:
+                    f_out.write(enigma.encrypt(line) + '\n')
+        else:
+            for line in lines_to_encrypt:
+                print(enigma.encrypt(line) + '\n')
+    except Exception:
+        sys.stderr.write("The enigma script has encountered an error")
+        exit(1)
