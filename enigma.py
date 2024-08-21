@@ -10,38 +10,39 @@ class Enigma:
         self.reflector_map = reflector_map
 
     def encrypt(self, message):
+        inverse_hash_map = {value: key for key, value in self.hash_map.items()}
         hash_map = self.hash_map.copy()
         wheels = self.wheels.copy()
         reflector_map = self.reflector_map.copy()
         final_message = ''
         for c in message:
             i = hash_map[c]
-            if (((2 * wheels[0]) - wheels[1] + wheels[2])%26) != 0 :
-                i += (((2 * wheels[0]) - wheels[1] + wheels[2])%26)
-            else :
+            if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
+                i += (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
+            else:
                 i += 1
             i = i % 26
-            c1 = hash_map[i]
+            c1 = inverse_hash_map[i]
             c2 = reflector_map[c1]
             i = hash_map[c2]
-            if (((2 * wheels[0]) - wheels[1] + wheels[2])%26) != 0 :
-                i -= (((2 * wheels[0]) - wheels[1] + wheels[2])%26)
-            else :
+            if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
+                i -= (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
+            else:
                 i -= 1
             i = i % 26
-            c3 = hash_map[i]
+            c3 = inverse_hash_map[i]
             final_message += c3
             wheels[0] += 1
             wheels[0] = wheels[0] % 8
-            if len(final_message) % 2 == 0 :
+            if len(final_message) % 2 == 0:
                 wheels[1] *= 2
-            else :
+            else:
                 wheels[1] -= 1
-            if len(final_message) % 10 == 0 :
+            if len(final_message) % 10 == 0:
                 wheels[2] = 10
-            elif len(final_message) % 3 == 0 :
+            elif len(final_message) % 3 == 0:
                 wheels[2] = 5
-            else :
+            else:
                 wheels[2] = 0
         return final_message
 
