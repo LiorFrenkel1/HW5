@@ -77,7 +77,7 @@ if __name__ == '__main__':
         lines_to_encrypt = []
         with open(args_dict['-i'], 'r') as f_in:
             for line in f_in:
-                lines_to_encrypt.append(line)
+                lines_to_encrypt.append(line.rstrip())
         #printing to -o or to the common printing
         if '-o' in args_dict:
             with open(args_dict['-o'], 'w') as f_out:
