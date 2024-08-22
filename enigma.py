@@ -17,10 +17,8 @@ class Enigma:
         final_message = ''
         encryptCounter = 0
         for c in message:
-            if c == "\n" :
-                final_message += "\n"
-            elif c == " " :
-                final_message += " "
+            if  not 'a' <= c <= 'z':
+                final_message += c
             else :
                 encryptCounter += 1
                 i = hash_map[c]
