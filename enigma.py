@@ -15,12 +15,14 @@ class Enigma:
         wheels = self.wheels.copy()
         reflector_map = self.reflector_map.copy()
         final_message = ''
+        encryptCounter = 0
         for c in message:
             if c == "\n" :
                 final_message += "\n"
             elif c == " " :
                 final_message += " "
             else :
+                encryptCounter += 1
                 i = hash_map[c]
                 if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
                     i += (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
@@ -40,13 +42,13 @@ class Enigma:
             wheels[0] += 1
             if wheels[0] > 8 :
                 wheels[0] = 1
-            if len(final_message) % 2 == 0:
+            if encryptCounter % 2 == 0:
                 wheels[1] *= 2
             else:
                 wheels[1] -= 1
-            if len(final_message) % 10 == 0:
+            if encryptCounter % 10 == 0:
                 wheels[2] = 10
-            elif len(final_message) % 3 == 0:
+            elif encryptCounter % 3 == 0:
                 wheels[2] = 5
             else:
                 wheels[2] = 0
