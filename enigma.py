@@ -71,11 +71,15 @@ def load_enigma_from_path(path):
 if __name__ == '__main__':
     #Getting the flags from the shell
     args_dict = {}
+    isError = False
     for i in range(1, len(sys.argv), 2):
         if sys.argv[i] != '-c' and sys.argv[i] != '-i' and sys.argv[i] != '-o':
-            sys.stderr.write("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>")
-            exit(1)
-        args_dict[sys.argv[i]] = sys.argv[i + 1]
+            isError = True
+        else:
+            args_dict[sys.argv[i]] = sys.argv[i + 1]
+    if '-c' not in args_dict or '-i' not in args_dict or isError:
+        sys.stderr.write("Usage: python3 enigma.py -c <config_file> -i <input_file> -o <output_file>")
+        exit(1)
     try:
         #loading the message to encrypt
         enigma = load_enigma_from_path(args_dict['-c'])
