@@ -38,7 +38,8 @@ class Enigma:
                 c3 = inverse_hash_map[i]
                 final_message += c3
             wheels[0] += 1
-            wheels[0] = wheels[0] % 8
+            if wheels[0] > 8 :
+                wheels[0] = 1
             if len(final_message) % 2 == 0:
                 wheels[1] *= 2
             else:
