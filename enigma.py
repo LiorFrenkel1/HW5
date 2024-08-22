@@ -16,22 +16,27 @@ class Enigma:
         reflector_map = self.reflector_map.copy()
         final_message = ''
         for c in message:
-            i = hash_map[c]
-            if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
-                i += (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
-            else:
-                i += 1
-            i = i % 26
-            c1 = inverse_hash_map[i]
-            c2 = reflector_map[c1]
-            i = hash_map[c2]
-            if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
-                i -= (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
-            else:
-                i -= 1
-            i = i % 26
-            c3 = inverse_hash_map[i]
-            final_message += c3
+            if c == "\n" :
+                final_message += "\n"
+            elif c == " " :
+                final_message += " "
+            else :
+                i = hash_map[c]
+                if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
+                    i += (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
+                else:
+                    i += 1
+                i = i % 26
+                c1 = inverse_hash_map[i]
+                c2 = reflector_map[c1]
+                i = hash_map[c2]
+                if (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26) != 0:
+                    i -= (((2 * wheels[0]) - wheels[1] + wheels[2]) % 26)
+                else:
+                    i -= 1
+                i = i % 26
+                c3 = inverse_hash_map[i]
+                final_message += c3
             wheels[0] += 1
             wheels[0] = wheels[0] % 8
             if len(final_message) % 2 == 0:
@@ -77,7 +82,7 @@ if __name__ == '__main__':
         lines_to_encrypt = []
         with open(args_dict['-i'], 'r') as f_in:
             for line in f_in:
-                lines_to_encrypt.append(line.rstrip())
+                lines_to_encrypt.append(line)
         #printing to -o or to the common printing
         if '-o' in args_dict:
             with open(args_dict['-o'], 'w') as f_out:
